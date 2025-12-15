@@ -1,7 +1,11 @@
 # MiniJava to LLVM-IR Compiler
 
-## Written in Java, it accepts a MiniJava file, performs Semantic checking and generates an equivalent LLVM-IR file that can be compiled to an executable binary by Clang.
-### This was a Spring 2021 semester project for the University of Athens Compilers course.
+This project implements a compiler for the MiniJava language in Java.
+It performs lexical analysis, parsing, semantic checks, and generates
+LLVM intermediate representation files that can be compiled with tools
+like Clang to produce executable binaries.
+
+This was a semester project for the University of Athens Compilers course.
 
 ### Compilation:
 - Run `make` for compiling all files
