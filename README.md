@@ -14,20 +14,39 @@ This was a semester project for the University of Athens Compilers course.
 ### Execution: 
 - Run `java Main <file1> <file2>... ` to run for multiple files
 
-### Features:
-- The program the input files for semantic errors.
-If an error is found, an exception is raised, and it appears in the terminal the line that was 
-problematic, followed by the error. If no errors are found,
-the program prints the offsets for all the variables and methods for each class.
-- We keep a map that includes all the classes(and their information). We pass this map to all visitors. At the end, we
-use it to set the offsets of all classes,methods,variables and print them.
-- We use a virtual table object to map Methods with their names. When a class has a super class, it stores the superclass methods first, then its own.
+### Features
 
-### Visitors:
-In this exercise we were asked to use the Visitor Pattern.
-We use 4 visitors in this implementation:
-- ClassNameVisitor: Find and stores all classes' declarations and arguments, existing in the file.
-- MethodNameVisitor: Find and stores all class variables, methods' declarations and methods' arguments, existing in the file.
-- MethodsBody: the variables and statements of the methods and the type checking, using all the stored information at this point.
-- IRGenerator: It generates the llvm-ir file
+- **Semantic analysis with detailed error reporting**  
+  The compiler detects semantic errors and reports the exact source line
+  and error description. If no errors are found, it computes and prints
+  memory offsets for all classes, methods, and variables.
 
+- **Global symbol table for class information**  
+  A central data structure stores all class metadata and is shared across
+  compiler visitors. This symbol table is used to compute offsets and
+  enforce semantic correctness.
+
+- **Virtual table (vtable) construction with inheritance support**  
+  Method dispatch is implemented using virtual tables. For subclasses,
+  inherited methods are placed first, followed by methods defined in the
+  subclass, preserving correct overriding behaviour.
+
+### Compiler Visitors
+
+The compiler is implemented using the **Visitor design pattern** and is
+structured into four main visitors, each responsible for a distinct
+compilation phase:
+
+- **ClassNameVisitor**  
+  Collects all class declarations and their formal parameters.
+
+- **MethodNameVisitor**  
+  Collects class fields, method declarations, and method parameters.
+
+- **MethodsBodyVisitor**  
+  Performs semantic checks and type checking on method bodies using the
+  information gathered by previous visitors.
+
+- **IRGenerator**  
+  Generates the corresponding LLVM intermediate representation (LLVM-IR)
+  for the input program.
